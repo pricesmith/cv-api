@@ -1,4 +1,4 @@
-package main
+package congressApi
 
 import (
 	"net/http"
@@ -18,11 +18,28 @@ type Client struct {
 }
 
 func New(apiKey string) *Client {
-	// perhaps allow to manually set timeout?
 	c := &http.Client{Timeout: time.Minute}
 
 	return &Client{
 		c:      c,
 		apiKey: apiKey,
 	}
+}
+
+// not correct.. or necessary? 
+func (c *Client) getMembers(queryParams) ([]Members, error) {
+    req, err := http.NewRequest("GET", /*URL*/, nil)
+    if err != nil {
+        return nil, err
+    }
+
+    /*authenticate the request*/
+    /*add queryParams to request*/
+
+    res, err := c.c.Do()
+    if err != nil {
+        return nil, err
+    }
+
+    /*deserialize success or error response and return its data*/
 }

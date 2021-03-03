@@ -1,10 +1,7 @@
 package server
 
 import (
-	"encoding/json"
-	"fmt"
-	"io/ioutil"
-	"log"
+	"cv-api/congressApi"
 	"net/http"
 )
 
@@ -13,72 +10,28 @@ var PPC_API_KEY string = "3vU0Ma4NFX2fLdqvNmats1qyTjASenhG5VrED6Gn"
 var PROPUBLICA_URL string = "https://api.propublica.org/"
 
 func Handlers() {
-	http.HandleFunc("/home", naHandler)
-	http.HandleFunc("/blog", naHandler)
-	http.HandleFunc("/learn", naHandler)
-	http.HandleFunc("/forum", naHandler)
-	http.HandleFunc("/reads", naHandler)
-	http.HandleFunc("/about", naHandler)
-	http.HandleFunc("/contact", naHandler)
-	http.HandleFunc("/resources", naHandler)
+	http.HandleFunc("/home", congressApi.naHandler))
+	http.HandleFunc("/blog", congressApi.naHandler))
+	http.HandleFunc("/learn", congressApi.naHandler))
+	http.HandleFunc("/forum", congressApi.naHandler))
+	http.HandleFunc("/reads", congressApi.naHandler))
+	http.HandleFunc("/about", congressApi.naHandler))
+	http.HandleFunc("/contact", congressApi.naHandler))
+	http.HandleFunc("/resources", congressApi.naHandler))
 
-	http.HandleFunc("/search", naHandler)
-	http.HandleFunc("/search/persons", naHandler)
-	http.HandleFunc("/search/numbers", naHandler)
-	http.HandleFunc("/search/addresses", naHandler)
-	http.HandleFunc("/search/socialmedia", naHandler)
+	http.HandleFunc("/search", congressApi.naHandler))
+	http.HandleFunc("/search/persons", congressApi.naHandler))
+	http.HandleFunc("/search/numbers", congressApi.naHandler))
+	http.HandleFunc("/search/addresses", congressApi.naHandler))
+	http.HandleFunc("/search/socialmedia", congressApi.naHandler))
 
-	http.HandleFunc("/congress", getMembersHandler)
-	http.HandleFunc("/search/congress", naHandler)
-	http.HandleFunc("/search/corporate", naHandler)
-	http.HandleFunc("/search/businesses", naHandler)
+	http.HandleFunc("/congress", congressApi.getMembersHandler)
+	http.HandleFunc("/search/congress", congressApi.naHandler))
+	http.HandleFunc("/search/corporate", congressApi.naHandler))
+	http.HandleFunc("/search/businesses", congressApi.naHandler))
 
-	http.HandleFunc("/polls", naHandler)
-	http.HandleFunc("/polls/create", naHandler)
-}
-func naHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Route not available")
-	return
-}
-
-func getMembersHandler(w http.ResponseWriter, r *http.Request) {
-
-	keys, ok := r.URL.Query()["congress"]
-	if !ok || len(keys[0]) < 1 {
-		log.Println("Url Param 'congress' is missing")
-		return
-	}
-	key := keys[0]
-
-	// url := "https://api.propublica.org/congress/v1/{congress}/{chamber}/members.json"
-	url := "https://api.propublica.org/congress/v1/" + key + "/senate/members.json"
-
-	req, err := http.NewRequest(http.MethodGet, url, nil)
-	if err != nil {
-		log.Fatalf("error creating HTTP request: %v", err)
-	}
-
-	req.Header.Add("Accept", "application/json")
-	req.Header.Add("X-API-Key", PPC_API_KEY)
-
-	// client := &http.Client????
-	res, err := http.DefaultClient.Do(req)
-	if err != nil {
-		log.Fatalf("error sending HTTP request: %v", err)
-	}
-
-	responseBytes, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		log.Fatalf("error reading HTTP response body: %v", err)
-	}
-
-	var ppcRes PPCResponse
-	if err := json.Unmarshal([]byte(responseBytes), &ppcRes); err != nil {
-		log.Fatalf("error deserializing PPC response data")
-	}
-	log.Println(ppcRes)
-
-	fmt.Fprintf(w, string(responseBytes))
+	http.HandleFunc("/polls", congressApi.naHandler))
+	http.HandleFunc("/polls/create", congressApi.naHandler))
 }
 
 // jsonString := `{
