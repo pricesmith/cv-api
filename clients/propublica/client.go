@@ -1,10 +1,12 @@
-package main
+package propublica
 
 import (
 	"net/http"
 	"net/url"
 	"time"
 )
+
+const PropublicaURL = "https://api.propublica.org/"
 
 var baseURL = url.URL{
 	Scheme: "https",
