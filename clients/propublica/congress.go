@@ -21,7 +21,6 @@ func (c *Client) GetMembers(congress string) []Result {
 	req.Header.Add("Accept", "application/json")
 	req.Header.Add("X-API-Key", c.apiKey)
 
-	// client := &http.Client????
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
 		log.Fatalf("error sending HTTP request: %v", err)
