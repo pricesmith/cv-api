@@ -7,10 +7,10 @@ import (
 	"net/http"
 )
 
-//GetMembers gets congress members from propublica
+// GetMembers gets congress members from propublica
 func (c *Client) GetMembers(congress string) []Result {
 
-	// url := "https://api.propublica.org/congress/v1/{congress}/{chamber}/members.json"
+	// https://api.propublica.org/congress/v1/{congress}/{chamber}/members.json
 	url := "https://api.propublica.org/congress/v1/" + congress + "/senate/members.json"
 
 	req, err := http.NewRequest(http.MethodGet, url, nil)
