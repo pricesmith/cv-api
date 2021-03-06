@@ -20,7 +20,6 @@ type Client struct {
 }
 
 func New(apiKey string) *Client {
-	// perhaps allow to manually set timeout?
 	c := &http.Client{Timeout: time.Minute}
 
 	return &Client{
