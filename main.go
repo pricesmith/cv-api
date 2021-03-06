@@ -1,18 +1,24 @@
 package main
 
 import (
-	"cv-api/server"
-	"fmt"
 	"log"
-	"net/http"
+	"os"
+
+	"github.com/pricesmith/cv-api/clients"
+	"github.com/pricesmith/cv-api/clients/propublica"
+	"github.com/pricesmith/cv-api/server"
 )
 
 func main() {
-	server.Handlers()
-
-	fmt.Printf("Starting server at port 8080\n")
-	if err := http.ListenAndServe(":8080", nil); err != nil {
-		log.Fatal(err)
+	APIKey := os.Getenv("API_KEY")
+	if APIKey == "" {
+		log.Fatal("missing api key")
 	}
-
+	ppClient := propublica.New(APIKey)
+	clients := clients.Clients{
+		Propublica: *ppClient,
+	}
+	server := server.NewServer(clients)
+	server.BuildRoutes()
+	server.Run()
 }
